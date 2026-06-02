@@ -1,40 +1,23 @@
+import 'package:flutter/material.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import 'ConnectionDb.dart';
-import 'TaskRepository.dart';
+import 'TaskPage.dart';
 
-Future<void> main() async {
+void main() {
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
-  final repository = TaskRepository();
-  
 
-  final id = await repository.inserir({
-    'tasks': 'Estudar Flutter',
-    'done': 0,
-    'created': DateTime.now().toIso8601String(),
-  });
+  runApp(const MyApp());
+}
 
-  print('Inserido com ID: $id');
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  final tarefa = await repository.findById(id);
-  print('Tarefa encontrada: $tarefa');
-
-  await repository.atualizar({
-    'id': id,
-    'task': 'Estudar Flutter + SQLite',
-    'done': 1,
-    'created': DateTime.now().toIso8601String(),
-  });
-
-  print('Tarefa atualizada');
-
-  final tarefas = await repository.listar();
-  print('Lista de tarefas:');
-  print(tarefas);
-
-  await repository.deletar(id);
-  print('Tarefa removida');
-
-  await ConnectionDb.instance.close();
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const TaskPage(),
+    );
+  }
 }

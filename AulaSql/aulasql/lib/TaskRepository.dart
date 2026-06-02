@@ -1,30 +1,26 @@
-
-
-
 import 'ConnectionDb.dart';
+import 'Task.dart';
 
 class TaskRepository {
-
   final ConnectionDb _connectionDb = ConnectionDb.instance;
 
-  Future<int> inserir(Map<String, dynamic> task) async{
+  Future<int> inserir(Task task) async {
     final db = await _connectionDb.database;
 
-      return await db.insert(
-          'tasks',
-          task,
-
-      );
+    return await db.insert(
+      'tasks',
+      task.toMap(),
+    );
   }
 
-   Future<int> atualizar(Map<String, dynamic> task) async {
+  Future<int> atualizar(Task task) async {
     final db = await _connectionDb.database;
 
     return await db.update(
       'tasks',
-      task,
+      task.toMap(),
       where: 'id = ?',
-      whereArgs: [task['id']],
+      whereArgs: [task.id],
     );
   }
 
@@ -38,7 +34,7 @@ class TaskRepository {
     );
   }
 
-  Future<Map<String, dynamic>?> findById(int id) async {
+  Future<Task?> findById(int id) async {
     final db = await _connectionDb.database;
 
     final result = await db.query(
@@ -48,17 +44,16 @@ class TaskRepository {
       limit: 1,
     );
 
-    if (result.isEmpty) {
-      return null;
-    }
+    if (result.isEmpty) return null;
 
-    return result.first;
+    return Task.fromMap(result.first);
   }
 
-  Future<List<Map<String, dynamic>>> listar() async {
+  Future<List<Task>> listar() async {
     final db = await _connectionDb.database;
 
-    return await db.query('tasks');
-  }
+    final result = await db.query('tasks');
 
+    return result.map((e) => Task.fromMap(e)).toList();
+  }
 }
