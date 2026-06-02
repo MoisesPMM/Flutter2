@@ -1,7 +1,7 @@
 
 
 
-import 'package:aula23/AtividadeSQLlite/ConnectionDb.dart';
+import 'ConnectionDb.dart';
 
 class TaskRepository {
 
@@ -11,7 +11,7 @@ class TaskRepository {
     final db = await _connectionDb.database;
 
       return await db.insert(
-          'task',
+          'tasks',
           task,
 
       );
