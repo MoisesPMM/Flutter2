@@ -1,0 +1,20 @@
+import 'package:flutter/material.dart';
+import './pages/splash.dart';
+
+void main() {
+  runApp(const MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "Previsão do Tempo",
+      initialRoute: "splash",
+      routes: {'/splash': (_) => const Splash()},
+    );
+      
+  }
+}
