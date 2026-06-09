@@ -1,63 +1,68 @@
 
 
 import 'package:flutter/material.dart';
+import '../components/inputComponent.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
-      ),
-      body: const Center(
-        child: Text(
-          'Bem-vindo ao aplicativo!',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
-    );
-  }
-}
 
-class _HomePage extends StatefulWidget {
-  const _HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<_HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<_HomePage> {
+class _HomePageState extends State<HomePage> {
   String city = '';
+  String? uf = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Previsão do Tempo'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              onChanged: (value) => setState(() => city = value),
-              decoration: const InputDecoration(
-                labelText: 'Digite o nome da cidade',
-                border: OutlineInputBorder(),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            children: [
+              InputComponent(
+                label: 'Cidade',
+                hint: 'Cascavel PR',
+                icon: Icons.location_city,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira o nome da cidade';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    city = value ?? '';
+                  });
+                },
               ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Lógica para buscar a previsão do tempo
-              },
-              child: const Text('Buscar Previsão'),
-            ),
-          ],
-        ),
-      ),
+              const SizedBox(height: 20),
+              InputComponent(
+                label: 'Estado',
+                hint: 'PR',
+                icon: Icons.location_history,
+                keyboard: TextInputType.text,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Por favor, insira o nome do estado';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  setState(() {
+                    uf = value;
+                  });
+                  
+                },
+              ),
+            ],
+          ),
+        )
+      )
     );
-  }
+}
 }

@@ -12,9 +12,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Previsão do Tempo",
-      initialRoute: "splash",
-      routes: {'/splash': (_) => const Splash()},
-    );
+      home: const Splash(),
+      );
       
   }
 }
